@@ -13,22 +13,22 @@
 <button class="btn">
     <a href="/logout" style="color: red;">Logout</a>
 </button>
-<form class="form-group" action="/search" method="post">
-    <input class="form-group" placeholder="search by name" type="text" name="txtName"/>
-    <select name="color" class="form-group" id="color">
+<form class="form-inline" action="/search" method="post">
+    <input class="form-control m-3" placeholder="search by name" type="text" name="txtName"/>
+    <select class="form-control m-3" name="color" id="color">
         <option value="all" selected>All</option>
         <option value="pink">Pink</option>
         <option value="blue">Blue</option>
         <option value="purple">Purple</option>
     </select>
-    <select name="price" class="form-group" id="price">
+    <select class="form-control m-3" name="price" id="price">
         <option value="all" selected>All</option>
         <option value="1">10000 - 99999</option>
         <option value="2">100000 - 999999</option>
         <option value="3">1000000 - 9999999</option>
         <option value="other">Other</option>
     </select>
-    <button class="form-group btn btn-light" type="submit">Search</button>
+    <button class="form-group btn btn-dark" type="submit">Search</button>
 </form>
     <ul>
         {{# each model}}

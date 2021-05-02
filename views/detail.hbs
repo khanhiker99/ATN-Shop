@@ -13,12 +13,9 @@
         <a href="/logout" style="color: red;">Logout</a>
     </button>
     <div style="text-align: center;">
-        <img style="max-width:200px; max-height:200px" src="../{{product.fileName}}">
+        <img style="max-width:400px; max-height:400px" src="../{{product.fileName}}">
     </div>
      <div style="margin-top: 30px">
-<!--         <b>ID: </b>-->
-<!--         <span>{{product._id}}</span>-->
-<!--     </div>-->
      <div style="margin-top: 30px">
         <b>Code: </b>
         <span>{{product.code}}</span>
@@ -31,12 +28,14 @@
         <b>Price: </b>
         <span>{{product.price}} VND</span>
     </div>
-    <b style="margin-top: 30px">Description: </b>
-    <textarea style="margin-top: 30px">
-      {{product.description}}
-    </textarea>
+     <div style="margin-top: 30px">
+         <b>Description: </b>
+         <p style="margin-top: 30px">
+             {{product.description}}
+         </p>
+     </div>
     <div style="margin-top: 30px">
-        <button><a href="../">Back</a></button>
+        <button class="btn"><a href="../">Back</a></button>
     </div>
 </body>
 </html>
