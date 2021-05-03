@@ -137,7 +137,6 @@ app.post('/search',async (req,res)=>{
                 condition.price = {$gte: 10000000}
             }
         }
-        console.log(condition);
         // perform actions on the collection object
         results = await collection.find(condition).toArray();
         if (role === 'ADMIN') {
@@ -194,7 +193,6 @@ app.post('/doLogin',async (req,res)=>{
         const collection = client.db("ATNShop").collection("user");
         let result = await collection.findOne(condition);
         // perform actions on the collection object
-        console.log(result)
         if (result && result._id) {
             if (result.role && result.role.includes('ADMIN')) {
                 role = 'ADMIN';
@@ -227,7 +225,6 @@ app.post('/doInsert', async (req,res)=>{
         var description = req.body.txtDesc;
         var fileName = req.body.txtFileName;
         var color = req.body.color;
-        console.log(color);
         var newProduct = {
             color: color,
             name: nameInput,
