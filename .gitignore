@@ -16,3 +16,4 @@ npm-debug.log.*
 *.ipr
 *.ids
 *.orig
+image/
