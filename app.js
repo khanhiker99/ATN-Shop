@@ -304,5 +304,6 @@ app.post("/upload/:id",function (req, res, next) {
 // Take any port number of your choice which
 // is not taken by any other process
 
-app.listen(3000);
-console.log('Server is running at 3000')
+const PORT = process.env.PORT || 3000;
+app.listen(PORT);
+console.log('Server is running ' + PORT);
