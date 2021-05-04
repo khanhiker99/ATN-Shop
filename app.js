@@ -165,6 +165,13 @@ app.get('/home',async (req,res)=>{
             // perform actions on the collection object
             res.render('home', {model: results})
         });
+    } else if (role === 'USER') {
+        await client.connect(async (err) => {
+            const collection = client.db("ATNShop").collection("product");
+            let results = await collection.find({}).toArray();
+            // perform actions on the collection object
+            res.render('homeUser', {model: results})
+    })
     } else {
         res.render('Unauthorized');
     }

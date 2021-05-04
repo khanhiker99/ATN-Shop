@@ -20,26 +20,26 @@
      <div>
           <img style="max-width:200px; max-height:200px" src="{{product.fileName}}">
      </div>
-    <form action="/update" method="post">
+    <form class="form-group" action="/update" method="post">
         <input style="margin: 30px;" type="hidden" name="txtId" value="{{product._id}}">
         <input style="margin: 30px;" type="hidden" name="txtFileName" value="{{product.fileName}}">
-        <div style="margin: 30px;">
-            <b>Code</b> <input type="text" name="txtCode" value="{{product.code}}">
+        <div style="margin: 30px;"  class="row">
+            <b>Code</b> <input class="form-control" type="text" name="txtCode" value="{{product.code}}">
         </div>
-        <div style="margin: 30px;">
-            <b>Name</b> <input type="text" name="txtName" value="{{product.name}}"/>
+        <div style="margin: 30px;"  class="row">
+            <b>Name</b> <input class="form-control" type="text" name="txtName" value="{{product.name}}"/>
         </div>
-        <div style="margin: 30px;">
-             <b>Price</b> (VND) <input type="text" name="txtPrice" value="{{product.price}}"/>
+        <div style="margin: 30px;"  class="row">
+             <b>Price</b> (VND) <input class="form-control" type="text" name="txtPrice" value="{{product.price}}"/>
         </div>
-        <b style="margin: 10px;">Description</b>
-        <div style="margin: 10px;">
-            <textarea style="margin: 10px;" name="txtDesc">{{product.description}}</textarea>
+        <div style="margin: 30px;" class="row">
+            <b >Description</b>
+            <textarea class="form-control" name="txtDesc">{{product.description}}</textarea>
         </div>
         <div>
-            <input type="submit" value="Edit">
+            <input class="btn btn-info" type="submit" value="Edit">
             <div style="margin: 10px">
-                <button class="btn btn-secondary"><a href="../#">Cancel</a></button>
+                <button class="btn btn-outline-success"><a href="../#">Cancel</a></button>
             </div>
         </div>
     </form>

@@ -1,41 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Product</title>
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-</head>
-<body style="text-align: center;">
-    <h1>Product </h1>
-    <button class="btn">
-        <a href="/logout" style="color: red;">Logout</a>
-    </button>
-    <div style="text-align: center;">
-        <img style="max-width:400px; max-height:400px" src="../{{product.fileName}}">
-    </div>
-     <div style="margin-top: 30px">
-     <div style="margin-top: 30px">
-        <b>Code: </b>
-        <span>{{product.code}}</span>
-     </div>
-    <div style="margin-top: 30px">
-        <b>Name: </b>
-        <span>{{product.name}}</span>
-    </div>
-    <div style="margin-top: 30px">
-        <b>Price: </b>
-        <span>{{product.price}} VND</span>
-    </div>
-     <div style="margin-top: 30px">
-         <b>Description: </b>
-         <p style="margin-top: 30px">
-             {{product.description}}
-         </p>
-     </div>
-    <div style="margin-top: 30px">
-        <button class="btn"><a href="../">Back</a></button>
-    </div>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>View Product</title>
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+    </head>
+    <body style="text-align: center;">
+        <h1>Product </h1>
+        <button class="btn">
+            <a href="/logout" style="color: red;">Logout</a>
+        </button>
+        <div style="text-align: center;">
+            <img style="max-width:400px; max-height:400px" src="../{{product.fileName}}">
+        </div>
+         <div style="margin-top: 30px">
+         <div style="margin-top: 30px">
+            <b>Code: </b>
+            <span>{{product.code}}</span>
+         </div>
+        <div style="margin-top: 30px">
+            <b>Name: </b>
+            <span>{{product.name}}</span>
+        </div>
+        <div style="margin-top: 30px">
+            <b>Price: </b>
+            <span>{{product.price}} VND</span>
+        </div>
+         <div style="margin-top: 30px">
+             <b>Color: </b>
+             <span>{{product.color}}</span>
+         </div>
+         <div style="margin-top: 30px">
+             <b>Description: </b>
+             <p style="margin-top: 30px">
+                 {{product.description}}
+             </p>
+         </div>
+        <div style="margin-top: 30px">
+            <button class="btn btn-dark"><a href="../home">Back</a></button>
+        </div>
+    </body>
 </html>
