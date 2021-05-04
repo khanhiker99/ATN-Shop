@@ -186,10 +186,27 @@ app.get('/',async (req,res)=>{
         res.render('index', {model: results})
     });
 
-})
+});
 
-app.get('/register',async (req,res)=>{
-        res.render('register');
+
+app.get('/register', async (req,res) => {
+    res.render('register');
+});
+
+app.post('/doRegister',async (req,res)=>{
+       let username = req.body.username;
+       let password = req.body.password;
+       var passw = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,15}$/;
+       if (password.match(passw)) { // check if password is valid with regex
+           let condition = {"username": username.trim(), "password": password.trim()};
+           await client.connect(async (err) => {
+               const collection = client.db("ATNShop").collection("user");
+               await collection.insertOne(condition);
+               res.redirect('/');
+           });
+       } else {
+           res.send('Input Password and Submit [5 to 15 characters which contain at least one numeric digit and a special character]');
+       }
 })
 
 app.post('/doLogin',async (req,res)=>{
@@ -213,7 +230,7 @@ app.post('/doLogin',async (req,res)=>{
         }
     });
 
-})
+});
 
 app.get('/insert',(req,res)=>{
     res.render('newProduct')

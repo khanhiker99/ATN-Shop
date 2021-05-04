@@ -9,21 +9,48 @@
 </head>
 <body class="text-center">
     <h1>Register page</h1>
-    <form class="form-group" action="/register" method="post">
+    <form class="form-group" action="/doRegister" method="post">
         <div class="m-auto" style="width: 400px;">
             <label> <b>UserName: </b></label>
-            <input class="form-control" type="text" name="username">
+            <input required class="form-control" type="text" name="username">
         </div>
         <div class="m-auto"  style="width: 400px;">
             <label> <b>Password: </b></label>
-            <input class="form-control" type="password">
+            <input required class="form-control" type="password" id="password" name="password" onkeyup='check();'>
         </div>
         <div class="m-auto"  style="width: 400px;">
             <label> <b>Password again: </b></label>
-            <input class="form-control" type="password" name="password">
+            <input required class="form-control" type="password" id="confirm_password" onkeyup='check();'>
+            <span id="message"></span>
         </div>
         <input class="mt-3 btn btn-info" type="submit" value="Register">
     </form>
     <button class="btn btn-outline-dark"> <a href="/"> Login </a>  </button>
 </body>
 </html>
+<script>
+    var check = function() {
+        var value = document.getElementById('password').value;
+        if (checkPassword(value)) {
+            if (value === document.getElementById('confirm_password').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'password matching';
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'password not matching';
+            }
+        } else {
+            document.getElementById('message').style.color = 'red';
+            document.getElementById('message').innerHTML = 'Input Password and Submit [5 to 15 characters which contain at least one numeric digit and a special character]';
+        }
+    }
+
+    function checkPassword(inputtxt) {
+        var passw = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,15}$/;
+        if (inputtxt.match(passw)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
