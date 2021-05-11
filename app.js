@@ -140,9 +140,9 @@ app.post('/search',async (req,res)=>{
         // perform actions on the collection object
         results = await collection.find(condition).toArray();
         if (role === 'ADMIN') {
-            res.render('home',{model:results})
+            res.render('home',{model:results, isAdmin: true})
         } else if (role === 'USER') {
-            res.render('homeUser',{model:results})
+            res.render('home',{model:results, isAdmin: false})
         }
     });
 })
