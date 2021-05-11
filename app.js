@@ -19,7 +19,7 @@ var role;
 const uri = "mongodb+srv://admin:admin@cluster0.5pyxt.mongodb.net/ATNShop?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.post('/update',async (req,res)=>{
+app.post('/update',async (req,res)=> {
     if (role === 'ADMIN') {
         let id = req.body.txtId;
         let code = req.body.txtCode;
@@ -147,30 +147,20 @@ app.post('/search',async (req,res)=>{
     });
 })
 
-app.get('/homeUser',async (req,res)=>{
-    await client.connect(async (err) => {
-        const collection = client.db("ATNShop").collection("product");
-        let results = await collection.find({}).toArray();
-        // perform actions on the collection object
-        res.render('homeUser', {model: results})
-    });
-
-})
-
-app.get('/home',async (req,res)=>{
+app.get('/home',async (req,res)=> {
     if (role === 'ADMIN') { // if is Admin has permission to do this
         await client.connect(async (err) => {
             const collection = client.db("ATNShop").collection("product");
-            let results = await collection.find({}).toArray();
+            let results = await collection.find({}).toArray(); // tìm toàn bộ products có trong database
             // perform actions on the collection object
-            res.render('home', {model: results})
+            res.render('home', {model: results, isAdmin: true}) // trả kết quả về home page
         });
     } else if (role === 'USER') {
         await client.connect(async (err) => {
             const collection = client.db("ATNShop").collection("product");
             let results = await collection.find({}).toArray();
             // perform actions on the collection object
-            res.render('homeUser', {model: results})
+            res.render('home', {model: results, isAdmin: false})
     })
     } else {
         res.render('Unauthorized');
@@ -217,14 +207,13 @@ app.post('/doLogin',async (req,res)=>{
         const collection = client.db("ATNShop").collection("user");
         let result = await collection.findOne(condition);
         // perform actions on the collection object
-        if (result && result._id) {
-            if (result.role && result.role.includes('ADMIN')) {
+        if (result && result._id) { // nếu user tồn tại trong hệ thống đúng login và password
+            if (result.role && result.role.includes('ADMIN')) { // nếu user đăng nhập vào có quyền admin thì sẽ gán vào biến toàn cục để sử dụng lại
                 role = 'ADMIN';
-                res.redirect('/home')
             } else {
                 role = 'USER';
-                res.redirect('/homeUser')
             }
+            res.redirect('/home')
         } else {
             res.send("Wrong username or password!")
         }
