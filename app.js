@@ -21,13 +21,24 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 app.post('/update',async (req,res)=> {
     if (role === 'ADMIN') {
-        let id = req.body.txtId;
         let code = req.body.txtCode;
         let nameInput = req.body.txtName;
         let priceInput = req.body.txtPrice;
         let description = req.body.txtDesc;
         let fileName = req.body.txtFileName;
         let newValues;
+        if (!code) {
+            res.render('The code field cannot be empty ');
+        }
+
+        if (!nameInput) {
+            res.render("The name field cannot be empty ");
+        }
+
+        if (!priceInput) {
+            res.render("The price field cannot be empty");
+        }
+
         if (fileName !== null && fileName !== undefined && fileName.length !== 0) {
             newValues = {
                 $set: {
@@ -115,21 +126,21 @@ app.post('/search',async (req,res)=>{
     let nameInput = req.body.txtName;
     let color = req.body.color;
     let price = req.body.price;
-    let searchCondition = new RegExp(nameInput,'i') // search by text contains in name of product
+    let searchCondition = new RegExp(nameInput,'i') // Tìm 1 phần của tên thỏa mãn ô input
 
     await client.connect(async (err) => {
-        const collection = client.db("ATNShop").collection("product");
+        const collection = client.db("ATNShop").collection("product"); // Lấy collection Product
         let results;
         let condition;
-        if (color && color !== 'all') {
-             condition = {name:searchCondition, color: color};
+        if (color && color !== 'all') {     // Nếu tồn tại color và color được chọn không phải là All, Nếu color được chọn
+             condition = {name:searchCondition, color: color};   // Điều kiện tìm kiếm sẽ kết hợp giữa tên và màu
         } else {
              condition = {name: searchCondition};
         }
         if (price && price !== 'all') {
             if (price === '1') { // if price is 1 level we will build a query to search price from 10000 to 99999
-                condition.price = {$gte: 10000, $lte: 99999}
-            } else if (price === '2') {
+                condition.price = {$gte: 10000, $lte: 99999}        // Nếu là mức giá thứ nhất thì sẽ tìm kiếm từ mức giá điều kiện
+            } else if (price === '2') {                             // gte : Greater than equal     ,       lte : Less than equal
                 condition.price = {$gte: 100000, $lte: 999999}
             } else if (price === '3') {
                 condition.price = {$gte: 1000000, $lte: 9999999}
@@ -138,7 +149,7 @@ app.post('/search',async (req,res)=>{
             }
         }
         // perform actions on the collection object
-        results = await collection.find(condition).toArray();
+        results = await collection.find(condition).toArray();       // Tìm kiếm product thỏa mãn điều kiện trên
         if (role === 'ADMIN') {
             res.render('home',{model:results, isAdmin: true})
         } else if (role === 'USER') {
