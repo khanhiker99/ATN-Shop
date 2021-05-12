@@ -21,6 +21,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 app.post('/update',async (req,res)=> {
     if (role === 'ADMIN') {
+        let id = req.body.txtId;
         let code = req.body.txtCode;
         let nameInput = req.body.txtName;
         let priceInput = req.body.txtPrice;
@@ -126,21 +127,21 @@ app.post('/search',async (req,res)=>{
     let nameInput = req.body.txtName;
     let color = req.body.color;
     let price = req.body.price;
-    let searchCondition = new RegExp(nameInput,'i') // Tìm 1 phần của tên thỏa mãn ô input
+    let searchCondition = new RegExp(nameInput,'i')
 
     await client.connect(async (err) => {
         const collection = client.db("ATNShop").collection("product"); // Lấy collection Product
         let results;
         let condition;
-        if (color && color !== 'all') {     // Nếu tồn tại color và color được chọn không phải là All, Nếu color được chọn
-             condition = {name:searchCondition, color: color};   // Điều kiện tìm kiếm sẽ kết hợp giữa tên và màu
+        if (color && color !== 'all') {
+             condition = {name:searchCondition, color: color};
         } else {
              condition = {name: searchCondition};
         }
         if (price && price !== 'all') {
-            if (price === '1') { // if price is 1 level we will build a query to search price from 10000 to 99999
-                condition.price = {$gte: 10000, $lte: 99999}        // Nếu là mức giá thứ nhất thì sẽ tìm kiếm từ mức giá điều kiện
-            } else if (price === '2') {                             // gte : Greater than equal     ,       lte : Less than equal
+            if (price === '1') {
+                condition.price = {$gte: 10000, $lte: 99999}
+            } else if (price === '2') {
                 condition.price = {$gte: 100000, $lte: 999999}
             } else if (price === '3') {
                 condition.price = {$gte: 1000000, $lte: 9999999}
@@ -148,8 +149,8 @@ app.post('/search',async (req,res)=>{
                 condition.price = {$gte: 10000000}
             }
         }
-        // perform actions on the collection object
-        results = await collection.find(condition).toArray();       // Tìm kiếm product thỏa mãn điều kiện trên
+
+        results = await collection.find(condition).toArray();
         if (role === 'ADMIN') {
             res.render('home',{model:results, isAdmin: true})
         } else if (role === 'USER') {
@@ -159,18 +160,18 @@ app.post('/search',async (req,res)=>{
 })
 
 app.get('/home',async (req,res)=> {
-    if (role === 'ADMIN') { // if is Admin has permission to do this
+    if (role === 'ADMIN') {
         await client.connect(async (err) => {
             const collection = client.db("ATNShop").collection("product");
-            let results = await collection.find({}).toArray(); // tìm toàn bộ products có trong database
-            // perform actions on the collection object
-            res.render('home', {model: results, isAdmin: true}) // trả kết quả về home page
+            let results = await collection.find({}).toArray();
+
+            res.render('home', {model: results, isAdmin: true})
         });
     } else if (role === 'USER') {
         await client.connect(async (err) => {
             const collection = client.db("ATNShop").collection("product");
             let results = await collection.find({}).toArray();
-            // perform actions on the collection object
+
             res.render('home', {model: results, isAdmin: false})
     })
     } else {
@@ -183,7 +184,7 @@ app.get('/',async (req,res)=>{
     await client.connect(async (err) => {
         const collection = client.db("ATNShop").collection("product");
         let results = await collection.find({}).toArray();
-        // perform actions on the collection object
+
         res.render('index', {model: results})
     });
 
@@ -198,7 +199,7 @@ app.post('/doRegister',async (req,res)=>{
        let username = req.body.username;
        let password = req.body.password;
        var passw = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,15}$/;
-       if (password.match(passw)) { // check if password is valid with regex
+       if (password.match(passw)) {
            let condition = {"username": username.trim(), "password": password.trim()};
            await client.connect(async (err) => {
                const collection = client.db("ATNShop").collection("user");
@@ -217,9 +218,9 @@ app.post('/doLogin',async (req,res)=>{
     await client.connect(async (err) => {
         const collection = client.db("ATNShop").collection("user");
         let result = await collection.findOne(condition);
-        // perform actions on the collection object
-        if (result && result._id) { // nếu user tồn tại trong hệ thống đúng login và password
-            if (result.role && result.role.includes('ADMIN')) { // nếu user đăng nhập vào có quyền admin thì sẽ gán vào biến toàn cục để sử dụng lại
+
+        if (result && result._id) {
+            if (result.role && result.role.includes('ADMIN')) {
                 role = 'ADMIN';
             } else {
                 role = 'USER';
@@ -272,12 +273,12 @@ var storage = multer.diskStorage({
         cb(null, "image")
     },
     filename: function (req, file, cb) {
-      cb(null, file.fieldname + "-" + Date.now()+".jpg") // set name of image again
+      cb(null, file.fieldname + "-" + Date.now()+".jpg")
+
     }
   })
 
 const maxSize = 1 * 1000 * 1000;
-    var nameOfFile;
 var upload = multer({
     storage: storage,
     limits: { fileSize: maxSize },
@@ -293,12 +294,12 @@ var upload = multer({
         if (mimetype && extname) {
             return cb(null, true);
         }
-        nameOfFile = extname;
         cb("Error: File upload only supports the "
                 + "following filetypes - " + filetypes);
       }
 
 }).single("fileUpload");
+
 
 app.post("/upload/:id",function (req, res, next) {
     if (role === 'ADMIN') {
@@ -325,8 +326,7 @@ app.post("/upload/:id",function (req, res, next) {
     }
 })
 
-// Take any port number of your choice which
-// is not taken by any other process
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT);
